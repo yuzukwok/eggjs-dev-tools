@@ -1,5 +1,5 @@
 {
-  "name": "egg-dev-tools",
+  "name": "eggjs-dev-tools",
   "displayName": "Egg.js dev tools",
   "description": "some useful feature for Egg.js development",
   "version": "0.1.0",
