@@ -1,0 +1,41 @@
+{
+  "name": "egg-dev-tools",
+  "displayName": "Egg.js dev tools",
+  "description": "some useful feature for Egg.js development",
+  "version": "0.1.0",
+  "publisher": "yuzukwok",
+  "engines": {
+    "vscode": "^1.0.0"
+  },
+  "homepage": "https://github.com/yuzukwok/eggjs-dev-tools",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yuzukwok/eggjs-dev-tools.git"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "contributes": {
+    "snippets": [{
+        "language": "javascript",
+        "path": "./snippets/eggsnippets.json"
+    }]
+  },
+  "main": "./out/src/extension",
+  "icon": "icon/eggjsdevtools.png",
+  "scripts": {
+    "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
+    "compile": "node ./node_modules/vscode/bin/compile  -watch  -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install"
+  },
+  "devDependencies": {
+    "typescript": "^1.8.5",
+    "vscode": "^0.11.0"
+  },
+  "dependencies": {
+    "camelize": "^1.0.0"
+  }
+}
