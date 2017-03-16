@@ -25,11 +25,8 @@ export class PathCompletionItem extends CompletionItem {
         //  }else{
         //    this.kind=CompletionItemKind.File;
         //  }
-        
-        
-        //this.addGroupByFolderFile(fileInfo);
-
-        //this.addSlashForFolder(fileInfo, importRange, config.autoSlash);
+        //sort 
+        this.sortText='0'+item
     }
     
     addGroupByFolderFile(fileInfo: FileInfo) {
