@@ -22,9 +22,15 @@ export function getTextWithinString(text: string, position: number) {
 
 export function getEggCompletionTypeString(text: string, position: number){
    const textToPosition = text.substring(0, position);
+   // 一行文本中出现以下特征字符则开始自动完成，靠右优先
+   let configindex =textToPosition.indexOf('app.config.');
+   let serviceindex=textToPosition.indexOf('ctx.service.');
    if(textToPosition.endsWith('app.model.')){
        return 'app.model'
-   }else if(textToPosition.indexOf('ctx.service.')!=-1){
+   }else if(configindex!=-1&&configindex>=serviceindex){
+       return 'app.config'
+   }
+   else if(serviceindex!=-1&&serviceindex>=configindex){
        return 'ctx.service'
    }else{
        return 'null'

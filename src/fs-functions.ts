@@ -27,8 +27,7 @@ export function getEggPathClass(path){
 export function getPath(fileName: string,linetxt:string,eggtype:string) : string {
     let base=workspace.rootPath
     if(eggtype=='ctx.service'){
-        linetxt=linetxt.replace('ctx.service.','√');
-        if(linetxt)linetxt=linetxt.substr(linetxt.indexOf('√')+1,linetxt.length- (linetxt.length-linetxt.lastIndexOf('.')));
+        linetxt=linetxt.substr(linetxt.lastIndexOf('ctx.service.')+12)
         linetxt=linetxt.trim()
         let dirs=linetxt.split('.')
         return  join(base,'/app/service',...dirs)
@@ -37,6 +36,11 @@ export function getPath(fileName: string,linetxt:string,eggtype:string) : string
     }else{
         return ''
     }
+}
+
+export function getEggConfigPath(){
+     let base=workspace.rootPath
+     return join(base,'/run/application_config.json')
 }
 
 export function extractExtension(document: TextDocument) {
