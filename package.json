@@ -1,8 +1,8 @@
 {
   "name": "eggjs-dev-tools",
   "displayName": "Egg.js dev tools",
-  "description": "some useful feature for Egg.js development",
-  "version": "0.1.1",
+  "description": "Egg.js dev tools Egg.js 开发辅助插件",
+  "version": "0.1.3",
   "publisher": "yuzukwok",
   "engines": {
     "vscode": "^1.0.0"

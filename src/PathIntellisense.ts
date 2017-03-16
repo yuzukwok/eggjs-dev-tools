@@ -32,8 +32,9 @@ export class PathIntellisense implements CompletionItemProvider {
         return this.shouldProvide(state) ? this.provide(state) : Promise.resolve([]);
     }
 
+    
+
     shouldProvide(state: State) {
-      
         // 目前支持 ctx.service app.model
 
         if(state.eggCompletionType =="ctx.service"|| state.eggCompletionType=='app.model'){
@@ -54,5 +55,11 @@ export class PathIntellisense implements CompletionItemProvider {
              ...children.map(child => new PathCompletionItem(child, state.eggCompletionType,state.config))
          ]});
         
+    }
+
+    resolveCompletionItem(item: CompletionItem): Thenable<CompletionItem>{
+        //读取详细信息
+       // item.detail='detail'
+        return Promise.resolve(item);
     }
 }

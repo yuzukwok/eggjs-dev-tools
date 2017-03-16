@@ -7,7 +7,7 @@ In the command palette (cmd-shift-p) select Install Extension and choose Egg.js 
 
 ## Contributing
 Something missing? Found a bug? - Create a pull request or an issue.
-[Github](https://github.com/yuzukwok/egg-dev-tools)
+[Github](https://github.com/yuzukwok/eggjs-dev-tools)
 
 ## History
 ### v0.1.0
