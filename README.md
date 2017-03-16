@@ -10,7 +10,7 @@ Something missing? Found a bug? - Create a pull request or an issue.
 [Github](https://github.com/yuzukwok/egg-dev-tools)
 
 ## History
-### v0.0.1 
+### v0.1.0
 - Initial 
    支持ctx.service 和app.model 的自动完成感应  
    新增 egg 的controller service 代码  

@@ -14,7 +14,7 @@ export function isImportOrRequire(text) {
 
 export function getTextWithinString(text: string, position: number) {
     let textToPosition = text.substring(0, position);
-    if(textToPosition.lastIndexOf(' ')){
+    if(textToPosition.lastIndexOf(' ')!= -1){
         textToPosition=textToPosition.substr(textToPosition.lastIndexOf(' '))
     }
     return textToPosition

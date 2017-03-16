@@ -27,8 +27,8 @@ export function getEggPathClass(path){
 export function getPath(fileName: string,linetxt:string,eggtype:string) : string {
     let base=workspace.rootPath
     if(eggtype=='ctx.service'){
-        linetxt=linetxt.replace('ctx.service.','');
-        if(linetxt)linetxt=linetxt.substr(0,linetxt.length- (linetxt.length-linetxt.lastIndexOf('.')));
+        linetxt=linetxt.replace('ctx.service.','√');
+        if(linetxt)linetxt=linetxt.substr(linetxt.indexOf('√')+1,linetxt.length- (linetxt.length-linetxt.lastIndexOf('.')));
         linetxt=linetxt.trim()
         let dirs=linetxt.split('.')
         return  join(base,'/app/service',...dirs)
