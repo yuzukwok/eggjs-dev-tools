@@ -31,9 +31,8 @@ export function getPath(fileName: string, linetxt: string, eggtype: string): str
 }
 
 export function findSymbol(file) {
-    new Promise<string[]>((resolve, reject) => {
+  return  new Promise<string[]>((resolve, reject) => {
         let uri= Uri.file(file)
-        console.log('uri:'+JSON.stringify(uri))
         commands.executeCommand('vscode.executeDocumentSymbolProvider',uri).then(function (res) {
             resolve(res)
         },function(err){

@@ -1,4 +1,4 @@
-import { CompletionItem, CompletionItemKind, Range, TextEdit } from 'vscode';
+import { CompletionItem, CompletionItemKind, Range, TextEdit,SymbolInformation,SymbolKind } from 'vscode';
 import { FileInfo } from './FileInfo';
 import { workspace } from 'vscode';
 import { Config } from './config';
@@ -6,7 +6,35 @@ import{ camelize } from './camelize';
 import {store,MappingClassPath} from './store'
 
 const withExtension = workspace.getConfiguration('path-intellisense')['extensionOnImport'];
+export function dealwithSymbol(symbols:SymbolInformation[]) {
+        //找到module.exports的类名
+        let classname = ''
+        for (var index = 0; index < symbols.length; index++) {
+            var element = symbols[index];
+            if (element.containerName == 'module.exports' && element.kind == SymbolKind.Class) {
+                classname = element.name;
+                break;
+            }
+        }
+        //找到class 内所有方法 和属性
+        let result=new Array<CompletionItem>();
+        for (var index = 0; index < symbols.length; index++) {
+            var element = symbols[index];
+            if(element.containerName==classname &&(element.kind==SymbolKind.Method|| element.kind==SymbolKind.Property)){
+                let item=new CompletionItem(element.name);
+                if(element.kind==SymbolKind.Method){
+                    item.kind=CompletionItemKind.Method
+                }else{
+                    item.kind=CompletionItemKind.Property
+                }
+                item.sortText='0'+item.label
+                result.push(item)
+            }
+        }
+        return result
 
+
+    }
 export class PathCompletionItem extends CompletionItem {
     constructor(fileInfo: FileInfo,eggtype:string,eggentry:string, config: Config) {
            //label
