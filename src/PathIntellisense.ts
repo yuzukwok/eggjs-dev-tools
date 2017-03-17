@@ -1,10 +1,10 @@
 import { CompletionItemProvider, TextDocument, Position, CompletionItem, workspace,CompletionItemKind, Range } from 'vscode';
-
 import { isImportOrRequire, getTextWithinString,getEggCompletionTypeString, importStringRange } from './text-parser';
-import { getPath,getEggConfigPath, extractExtension, Mapping } from './fs-functions';
+import { getPath,getEggConfigPath, extractExtension, findSymbol,Mapping } from './fs-functions';
 import { PathCompletionItem } from './PathCompletionItem';
 import { getConfig, Config } from './config';
 import { dlv } from './dlv'
+import { store} from './store'
 interface State {
     config?: Config,
     fileName?: string,
@@ -19,15 +19,18 @@ export class PathIntellisense implements CompletionItemProvider {
         //console.log('ctor1');
     }
     
-    provideCompletionItems(document: TextDocument, position: Position): Thenable<CompletionItem[]> {       console.log('provideCompletionItems 激活');
+    provideCompletionItems(document: TextDocument, position: Position): Thenable<CompletionItem[]> {     
+          console.log('provideCompletionItems 激活');
         const textCurrentLine = document.getText(document.lineAt(position).range);
         //console.log(textCurrentLine)
+        let eggcomtype=getEggCompletionTypeString(textCurrentLine, position.character)
+        let txtinline=getTextWithinString(textCurrentLine, position.character,eggcomtype)
         const state: State = {
             config: getConfig(),
             fileName: document.fileName,
             textCurrentLine,
-            textWithinString: getTextWithinString(textCurrentLine, position.character),
-            eggCompletionType:getEggCompletionTypeString(textCurrentLine, position.character),
+            textWithinString: txtinline,
+            eggCompletionType:eggcomtype,
         };
         console.log(state);
         return this.shouldProvide(state) ? this.provide(state) : Promise.resolve([]);
@@ -46,8 +49,7 @@ export class PathIntellisense implements CompletionItemProvider {
     }
 
     provide(state: State) {
-        console.log('提供');
-        
+        console.log('提供');      
         if(state.eggCompletionType=='app.config'){
             // 基于run文件
             const configpath=getEggConfigPath();
@@ -79,13 +81,29 @@ export class PathIntellisense implements CompletionItemProvider {
 
         }else{
           //基于路径
-           const path = getPath(state.fileName, state.textWithinString,state.eggCompletionType);
-        console.log(path);
+
+          //如果当前entry 与 缓存中数据一致，说明已经处于文件级别，不在查找目录
+          let cur=store.paths[state.textWithinString]
+          if(!cur){
+                 const path = getPath(state.fileName, state.textWithinString,state.eggCompletionType);
+           console.log(path);
          return this.getEggPathClass(path).then(children => {
              console.log(children)
              return [
-             ...children.map(child => new PathCompletionItem(child, state.eggCompletionType,state.config))
+             ...children.map(child => new PathCompletionItem(child, state.eggCompletionType,state.textWithinString,state.config))
          ]});
+          }else{
+              //文件级别 开始读取typescript 符号
+              console.log(cur)
+              var findpath=cur.path
+              findSymbol(findpath).then(res=>{
+                 console.log(res)
+                 Promise.resolve([])
+             },function(err){
+                 console.log(err)
+             })
+          }
+         
         }
        
          

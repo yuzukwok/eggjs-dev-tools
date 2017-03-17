@@ -12,11 +12,29 @@ export function isImportOrRequire(text) {
     return isImport || isRequire;
 }
 
-export function getTextWithinString(text: string, position: number) {
+export function getTextWithinString(text: string, position: number,eggcomtype:string) {
     let textToPosition = text.substring(0, position);
-    if(textToPosition.lastIndexOf(' ')!= -1){
-        textToPosition=textToPosition.substr(textToPosition.lastIndexOf(' '))
+    // if(textToPosition.lastIndexOf(' ')!= -1){
+    //     textToPosition=textToPosition.substr(textToPosition.lastIndexOf(' '))
+    // }
+    //截取最近的数据
+    switch (eggcomtype) {
+        case 'ctx.service':
+            textToPosition=textToPosition.substr(textToPosition.lastIndexOf('ctx.service.')+12)
+            break;
+        case 'app.model':
+            textToPosition=textToPosition.substr(textToPosition.lastIndexOf('app.model.')+10)
+            break;
+        case 'app.config':
+        textToPosition=textToPosition.substr(textToPosition.lastIndexOf('app.config.')+11)
+            break;
+        default:
+            break;
     }
+     
+    textToPosition=textToPosition.trim()
+    let endot=textToPosition.charAt(textToPosition.length-1)=="."
+    if(endot)  textToPosition=textToPosition.substr(0,textToPosition.length-1)
     return textToPosition
 }
 

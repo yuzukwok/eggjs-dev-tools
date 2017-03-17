@@ -3,11 +3,12 @@ import { FileInfo } from './FileInfo';
 import { workspace } from 'vscode';
 import { Config } from './config';
 import{ camelize } from './camelize';
+import {store,MappingClassPath} from './store'
 
 const withExtension = workspace.getConfiguration('path-intellisense')['extensionOnImport'];
 
 export class PathCompletionItem extends CompletionItem {
-    constructor(fileInfo: FileInfo,eggtype:string, config: Config) {
+    constructor(fileInfo: FileInfo,eggtype:string,eggentry:string, config: Config) {
            //label
         super(fileInfo.file);
         let item=fileInfo.file
@@ -27,6 +28,20 @@ export class PathCompletionItem extends CompletionItem {
         //  }
         //sort 
         this.sortText='0'+item
+
+        //缓存结果
+        if(fileInfo.isFile){
+            let key=eggentry+item
+            // 是否存在
+            let obj=store.paths[key]
+            if(!obj){
+            store.paths[key]={}
+            store.paths[key].path=fileInfo.filePath
+            store.paths[key].classname=eggentry+item
+            }
+            //console.log(store.paths[key])
+        }
+        
     }
     
     addGroupByFolderFile(fileInfo: FileInfo) {
