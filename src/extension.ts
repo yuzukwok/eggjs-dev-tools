@@ -3,7 +3,7 @@ import { ExtensionContext, languages, workspace, commands, Uri } from 'vscode';
 import { PathIntellisense } from './PathIntellisense';
 import { getEggPathClass } from './fs-functions';
 import { store, MappingClassPath } from './store';
-import { findAllNodePid,findDebugPortAndDebug } from './debughelper';
+import { findAllNodePid, findDebugPortAndDebug ,findInspectNodeInMac} from './debughelper';
 
 export function activate(context: ExtensionContext) {
 
@@ -13,10 +13,16 @@ export function activate(context: ExtensionContext) {
 
 
 	var disposable = commands.registerCommand('extension.eggdebugattach', () => {
+		//windows
+		if (process.platform === 'win32') {
+			findAllNodePid().then(function (pids) {
+				findDebugPortAndDebug(pids, 9229)
+			})
+		}else{
+			//not windows
+			findInspectNodeInMac()
+		}
 
-		findAllNodePid().then(function (pids) {
-			findDebugPortAndDebug(pids,9229)
-		})
 
 	});
 

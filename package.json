@@ -2,7 +2,7 @@
   "name": "eggjs-dev-tools",
   "displayName": "Egg.js dev tools",
   "description": "Egg.js dev tools Egg.js 开发辅助插件",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "publisher": "yuzukwok",
   "engines": {
     "vscode": "^1.0.0"
@@ -27,8 +27,13 @@
     ],
     "commands": [{
             "command": "extension.eggdebugattach",
-            "title": "egg自动附加到worker进程调试"
-        }]
+            "title": "egg自动附加调试进程(实验)"
+        }],
+    "keybindings": [{
+        "command": "extension.eggdebugattach",
+        "key": "ctrl+1",
+        "mac": "cmd+1"
+    }]
   },
   "main": "./out/src/extension",
   "icon": "icon/eggjsdevtools.png",
