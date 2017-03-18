@@ -1,7 +1,7 @@
 import { readdir } from 'fs';
 import { resolve as resolvePath, sep as dirSeparator, normalize } from 'path';
 import { FileInfo } from './FileInfo';
-import { TextDocument, workspace, Uri, commands } from 'vscode';
+import { TextDocument, workspace, Uri, commands,SymbolInformation } from 'vscode';
 import { join } from 'path'
 import { store } from './store'
 
@@ -31,7 +31,7 @@ export function getPath(fileName: string, linetxt: string, eggtype: string): str
 }
 
 export function findSymbol(file) {
-    return new Promise<string[]>((resolve, reject) => {
+    return new Promise<SymbolInformation[]>((resolve, reject) => {
         // 当前workspace是否存在
         let found = false;
         for (var index = 0; index < workspace.textDocuments.length; index++) {
@@ -39,7 +39,7 @@ export function findSymbol(file) {
             if (element.uri.fsPath == file) {
                 //当前已存在
                 found = true
-                commands.executeCommand('vscode.executeDocumentSymbolProvider', element.uri).then(function (res) {
+                commands.executeCommand<SymbolInformation[]>('vscode.executeDocumentSymbolProvider', element.uri).then(function (res) {
                     resolve(res)
                 }, function (err) {
                     console.log(err)
@@ -51,7 +51,7 @@ export function findSymbol(file) {
             //打开之后再读取
             let uri = Uri.file(file)
             workspace.openTextDocument(uri).then(function (file) {
-                commands.executeCommand('vscode.executeDocumentSymbolProvider', uri).then(function (res) {
+                commands.executeCommand<SymbolInformation[]>('vscode.executeDocumentSymbolProvider', uri).then(function (res) {
                     resolve(res)
                 }, function (err) {
                     console.log(err)
