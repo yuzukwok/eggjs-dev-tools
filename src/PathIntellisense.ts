@@ -1,7 +1,7 @@
 import { CompletionItemProvider, TextDocument, Position, CompletionItem, workspace, CompletionItemKind, Range } from 'vscode';
 import { isImportOrRequire, getTextWithinString, getEggCompletionTypeString, importStringRange } from './text-parser';
 import { getPath, getEggConfigPath, extractExtension, findSymbol, Mapping } from './fs-functions';
-import { PathCompletionItem,dealwithSymbol } from './PathCompletionItem';
+import { PathCompletionItem, dealwithSymbol } from './PathCompletionItem';
 import { getConfig, Config } from './config';
 import { dlv } from './dlv'
 import { store } from './store'
@@ -97,12 +97,12 @@ export class PathIntellisense implements CompletionItemProvider {
                 //文件级别 开始读取typescript 符号
                 console.log(cur)
                 var findpath = cur.path
-             return   findSymbol(findpath).then(function (res) {
-                 // 更新cache
-                   store.paths[state.textWithinString].cache=res
-                   let  re=dealwithSymbol(res)
-                   console.log(re)
-                   return re
+                return findSymbol(findpath).then(function (res) {
+                    // 更新cache
+                    store.paths[state.textWithinString].cache = res
+                    let re = dealwithSymbol(res)
+                    console.log(re)
+                    return re
                 }, function (err) {
                     console.log(err)
                 })
@@ -114,7 +114,7 @@ export class PathIntellisense implements CompletionItemProvider {
 
 
     }
-   
+
     resolveCompletionItem(item: CompletionItem): Thenable<CompletionItem> {
         //读取详细信息
         // item.detail='detail'

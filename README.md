@@ -10,6 +10,8 @@ Something missing? Found a bug? - Create a pull request or an issue.
 [Github](https://github.com/yuzukwok/eggjs-dev-tools)
 
 ## History
+### v0.3.0
+   支持 ctx.service 类元素的智能感应
 ### v0.2.0
    支持 app.config 智能感应（基于应用run目录下的json信息提供）
 ### v0.1.0
