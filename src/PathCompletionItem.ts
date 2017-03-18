@@ -59,13 +59,13 @@ export class PathCompletionItem extends CompletionItem {
 
         //缓存结果
         if(fileInfo.isFile){
-            let key=eggentry+'.'+item
+            let key=eggentry==''?item:eggentry+'.'+item
             // 是否存在
             let obj=store.paths[key]
             if(!obj){
             store.paths[key]={}
             store.paths[key].path=fileInfo.filePath
-            store.paths[key].classname=eggentry+'.'+item
+            store.paths[key].classname=key
             }
             //console.log(store.paths[key])
         }
