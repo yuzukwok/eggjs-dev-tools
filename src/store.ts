@@ -11,5 +11,6 @@ export interface ClassStore{
 };
 
 var store:ClassStore={paths:{}}
+var debuginfo={ curmaxport:0}
 
-export  { store }
+export  { store,debuginfo }

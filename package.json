@@ -24,7 +24,11 @@
         "language": "javascript",
         "path": "./snippets/eggsnippets.json"
       }
-    ]
+    ],
+    "commands": [{
+            "command": "extension.eggdebugattach",
+            "title": "egg自动附加到worker进程调试"
+        }]
   },
   "main": "./out/src/extension",
   "icon": "icon/eggjsdevtools.png",
