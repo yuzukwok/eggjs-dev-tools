@@ -98,6 +98,8 @@ export class PathIntellisense implements CompletionItemProvider {
                 console.log(cur)
                 var findpath = cur.path
              return   findSymbol(findpath).then(function (res) {
+                 // 更新cache
+                   store.paths[state.textWithinString].cache=res
                    let  re=dealwithSymbol(res)
                    console.log(re)
                    return re

@@ -31,14 +31,38 @@ export function getPath(fileName: string, linetxt: string, eggtype: string): str
 }
 
 export function findSymbol(file) {
-  return  new Promise<string[]>((resolve, reject) => {
-        let uri= Uri.file(file)
-        commands.executeCommand('vscode.executeDocumentSymbolProvider',uri).then(function (res) {
-            resolve(res)
-        },function(err){
-            console.log(err)
-            reject(err)
-        });
+    return new Promise<string[]>((resolve, reject) => {
+        // 当前workspace是否存在
+        let found = false;
+        for (var index = 0; index < workspace.textDocuments.length; index++) {
+            var element = workspace.textDocuments[index];
+            if (element.uri.fsPath == file) {
+                //当前已存在
+                found = true
+                commands.executeCommand('vscode.executeDocumentSymbolProvider', element.uri).then(function (res) {
+                    resolve(res)
+                }, function (err) {
+                    console.log(err)
+                    reject(err)
+                });
+            }
+        }
+        if (!found) {
+            //打开之后再读取
+            let uri = Uri.file(file)
+            workspace.openTextDocument(uri).then(function (file) {
+                commands.executeCommand('vscode.executeDocumentSymbolProvider', uri).then(function (res) {
+                    resolve(res)
+                }, function (err) {
+                    console.log(err)
+                    reject(err)
+                });
+            },function(err){
+                reject(err)
+            })
+
+        }
+
     })
 
 }
